@@ -17,4 +17,11 @@ public interface TestExecutionRepository
     );
 
     // Spring Data JPA, bu metotlarin SQL sorgularini isimlerinden otomatik uretir!
+
+    long countByTestRunProjectId(Long projectId);
+
+    long countByTestRunProjectIdAndResult(
+            Long projectId,
+            TestExecutionResult result
+    );
 }

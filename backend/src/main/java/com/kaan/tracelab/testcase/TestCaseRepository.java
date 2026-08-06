@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface TestCaseRepository extends JpaRepository<TestCase, Long> {
 
-    List<TestCase> findByRequirementIdOrderByIdAsc(Long requirementId);
+    List<TestCase> findByRequirementIdOrderByIdAsc(
+            Long requirementId
+    );
+
+    long countByRequirementProjectId(Long projectId);
+
     // belirli bir requirement'a bagli test case'leri id sirasina gore getir
     // JPA, metot isminden sorguyu otomatik uretir
     /*
