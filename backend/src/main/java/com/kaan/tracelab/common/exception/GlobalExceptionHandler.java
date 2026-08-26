@@ -2,10 +2,15 @@ package com.kaan.tracelab.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.validation.FieldError;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -13,6 +18,16 @@ import java.util.Map;
 
 // tum exceptionlari tek merkezden yonetmek istiyoruz
 // her controller'da surekli try-catch yazmayi engelliyoruz..
+
+/*
+ResourceNotFoundException  → 404
+Validation error           → 400
+IllegalArgumentException   → 400
+AuthenticationException    → 401
+AccessDeniedException      → 403
+Diğer Exception            → 500
+ */
+
 
 @RestControllerAdvice   // projedeki butun RestController'lari izle,
                         // eger bir exception firlatilirsa once bana getir
@@ -72,4 +87,22 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
+
+    // hatali login 401 Unauthorized doner
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDeniedException(
+            AccessDeniedException exception
+    ) {
+        Map<String, Object> body = new HashMap<>();
+
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.FORBIDDEN.value());
+        body.put("error", "Forbidden");
+        body.put("message", "You do not have permission to perform this action");
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(body);
+    }
+
 }

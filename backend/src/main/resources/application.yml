@@ -22,3 +22,8 @@ server:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:TraceLabDevelopmentSecretKeyForJwtSigning2026MustBeLongEnough}
+    expiration-minutes: 120

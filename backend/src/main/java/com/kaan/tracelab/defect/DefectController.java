@@ -3,6 +3,7 @@ package com.kaan.tracelab.defect;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class DefectController {
 
     private final DefectService defectService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER')")
     @PostMapping(
             "/api/test-executions/{executionId}/defects"
     )
@@ -41,6 +43,7 @@ public class DefectController {
         return defectService.getDefectById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER', 'DEVELOPER')")
     @PutMapping("/api/defects/{id}")
     public DefectResponse updateDefect(
             @PathVariable Long id,
@@ -49,6 +52,7 @@ public class DefectController {
         return defectService.updateDefect(id, request);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/api/defects/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDefect(

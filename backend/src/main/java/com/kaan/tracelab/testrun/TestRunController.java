@@ -3,6 +3,7 @@ package com.kaan.tracelab.testrun;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class TestRunController {
         return testRunService.getTestRunsByProjectId(projectId);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER')")
     @PostMapping("/api/projects/{projectId}/test-runs")
     @ResponseStatus(HttpStatus.CREATED)
     public TestRunResponse createTestRun(
@@ -36,6 +38,7 @@ public class TestRunController {
         return testRunService.getTestRunById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER')")
     @PutMapping("/api/test-runs/{id}")
     public TestRunResponse updateTestRun(
             @PathVariable Long id,
@@ -44,6 +47,7 @@ public class TestRunController {
         return testRunService.updateTestRun(id, request);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER')")
     @DeleteMapping("/api/test-runs/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTestRun(

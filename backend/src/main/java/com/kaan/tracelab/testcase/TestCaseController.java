@@ -3,6 +3,7 @@ package com.kaan.tracelab.testcase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class TestCaseController {
         return testCaseService.getTestCasesByRequirementId(requirementId);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER')")
     @PostMapping("/api/requirements/{requirementId}/test-cases")
     @ResponseStatus(HttpStatus.CREATED)
     public TestCaseResponse createTestCase(
@@ -36,6 +38,7 @@ public class TestCaseController {
         return testCaseService.getTestCaseById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER')")
     @PutMapping("/api/test-cases/{id}")
     public TestCaseResponse updateTestCase(
             @PathVariable Long id,
@@ -44,6 +47,7 @@ public class TestCaseController {
         return testCaseService.updateTestCase(id, request);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TESTER')")
     @DeleteMapping("/api/test-cases/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTestCase(
