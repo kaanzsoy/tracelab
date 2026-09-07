@@ -3,9 +3,9 @@ spring:
     name: tracelab
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/tracelab_db
-    username: tracelab_user
-    password: tracelab_password
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/tracelab_db}
+    username: ${DB_USERNAME:tracelab_user}
+    password: ${DB_PASSWORD:tracelab_password}
     driver-class-name: org.postgresql.Driver
 
   jpa:
