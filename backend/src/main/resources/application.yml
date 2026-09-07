@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: tracelab
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/tracelab_db}
+    username: ${DB_USERNAME:tracelab_user}
+    password: ${DB_PASSWORD:tracelab_password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:TraceLabDevelopmentSecretKeyForJwtSigning2026MustBeLongEnough}
+    expiration-minutes: 120
